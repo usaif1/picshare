@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 //imports
-import { firebaseStorage } from "../../utility/firebase";
+import { firebaseStorage, firebaseDB } from "../../utility/firebase";
 
 const Upload = () => {
   const [file, setFile] = useState({});
@@ -27,16 +27,25 @@ const Upload = () => {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        console.log("snapshot --> ", snapshot);
+        console.log("uploading");
       },
       (error) => {
         alert(`error!!`);
-        console.log(error);
       },
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
           setImgUrl(downloadURL);
-          console.log("File available at", downloadURL);
+          firebaseDB()
+            .collection("img_urls")
+            .add({
+              url: downloadURL,
+            })
+            .then((docRef) => {
+              console.log("Url added to db --> ", docRef.id);
+            })
+            .catch((err) => {
+              alert("Error adding document to DB!");
+            });
         });
       }
     );

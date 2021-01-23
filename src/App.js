@@ -1,5 +1,6 @@
 //imports
 import "./App.css";
+import Pics from "./components/Pics/Pics";
 import Upload from "./components/Upload/Upload";
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <div>
       picshare app
       <Upload />
+      <Pics />
     </div>
   );
 }
