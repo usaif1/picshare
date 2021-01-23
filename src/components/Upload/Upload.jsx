@@ -1,19 +1,29 @@
 //dependencies
 import React, { useState } from "react";
+import { Container, makeStyles, IconButton, Button } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
 //imports
 import { firebaseStorage, firebaseDB } from "../../utility/firebase";
 
 const Upload = () => {
   const [file, setFile] = useState({});
-  const [imgUrl, setImgUrl] = useState("");
+  const [previewUrl, setPreviewUrl] = useState("");
   const storageRef = firebaseStorage().ref();
 
+  const classes = useStyles();
+
+  //onchange (file select) handler
   const onChangeHandler = (e) => {
     setFile(e.target.files[0]);
+
+    const liveUrl = URL.createObjectURL(e.target.files[0]);
+    setPreviewUrl(liveUrl);
   };
 
-  const onSubmitHandler = () => {
+  //on form submit handler
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
     const metadata = {
       name: file.name,
       contentType: file.type,
@@ -26,23 +36,18 @@ const Upload = () => {
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
-        console.log("uploading");
-      },
+      (snapshot) => {},
       (error) => {
         alert(`error!!`);
       },
       () => {
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          setImgUrl(downloadURL);
           firebaseDB()
             .collection("img_urls")
             .add({
               url: downloadURL,
             })
-            .then((docRef) => {
-              console.log("Url added to db --> ", docRef.id);
-            })
+            .then((docRef) => {})
             .catch((err) => {
               alert("Error adding document to DB!");
             });
@@ -52,19 +57,46 @@ const Upload = () => {
   };
 
   return (
-    <div>
-      <input type="file" id="myfile" name="myfile" onChange={onChangeHandler} />
-      <button onClick={onSubmitHandler}>Upload Image</button>
-      <div>Your Image - </div>
-      {imgUrl && (
-        <img
-          src={imgUrl}
-          alt="something"
-          style={{ width: "100px", objectFit: "contain" }}
-        />
-      )}
-    </div>
+    <Container>
+      <form className={classes.form}>
+        <label htmlFor="myfile">
+          <input
+            type="file"
+            id="myfile"
+            name="myfile"
+            onChange={onChangeHandler}
+            hidden
+            accept="image/*"
+          />
+          <IconButton component="span" classes={{ root: classes.addIcon }}>
+            <AddIcon fontSize="large" classes={{ root: classes.addIcon }} />
+          </IconButton>
+        </label>
+        <Button variant="text" onClick={onSubmitHandler}>
+          <p>Upload</p>
+        </Button>
+      </form>
+      <img src={previewUrl} alt="sjka" />
+    </Container>
   );
 };
 
 export default Upload;
+
+const useStyles = makeStyles((theme) => ({
+  form: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  uploadButton: {
+    height: "50px",
+    width: "50px",
+    borderRadius: "50%",
+    padding: "5px",
+    cursor: "pointer",
+  },
+  addIcon: {
+    cursor: "pointer",
+    color: "#3BA300",
+  },
+}));
