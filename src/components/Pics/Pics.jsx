@@ -40,7 +40,7 @@ const Pics = () => {
         ? pics.map((pic) => {
             return url(pic);
           })
-        : "loading..."}
+        : null}
     </div>
   );
 };
