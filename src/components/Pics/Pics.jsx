@@ -15,10 +15,9 @@ const Pics = () => {
   const fetchImageUrls = () => {
     firebaseDB()
       .collection("img_urls")
-      .get()
-      .then((querySnapshot) => {
+      .onSnapshot((snapshot) => {
         setPics(
-          querySnapshot.docs.map((doc) => {
+          snapshot.docs.map((doc) => {
             return {
               id: doc.id,
               url: doc.data().url,
