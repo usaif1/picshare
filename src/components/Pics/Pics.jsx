@@ -40,7 +40,7 @@ const Pics = () => {
             return url(pic);
           })
         : null}
-        <p>hello World</p>
+        <p>hello</p>
     </div>
   );
 };
