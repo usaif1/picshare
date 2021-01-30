@@ -7,6 +7,7 @@ import { Colors } from "../utility/Colors";
 import GlobalContainer from "../utility/GlobalContainer";
 
 const Title = () => {
+  // console.log(moment().format(`D-MM-YYYY-HH:mm:ss`));
   const classes = useStyles();
   return (
     <GlobalContainer>

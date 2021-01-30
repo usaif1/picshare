@@ -2,14 +2,12 @@ import React from "react";
 import { Snackbar, Slide, makeStyles } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
-import PropTypes from "prop-types";
-
 const AlertCustom = (props) => {
   const {
     open,
-    hideoutDuration,
+    hideoutDuration = 3000,
     onclose,
-    transitionComponent,
+    transitionComponent = Slide,
     severity,
     variant,
     text,
@@ -29,14 +27,15 @@ const AlertCustom = (props) => {
   );
 };
 
-Alert.propTypes = {
-  text: PropTypes.string,
-};
+// Alert.propTypes = {
+//   text: PropTypes.string.isRequired,
+// };
 
-Alert.defaultProps = {
-  transitionComponent: Slide,
-  hideoutDuration: 3000,
-};
+// Alert.defaultProps = {
+//   transitionComponent: Slide,
+//   hideoutDuration: 3000,
+//   text: "Error Message!",
+// };
 
 export default AlertCustom;
 

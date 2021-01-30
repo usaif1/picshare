@@ -21,6 +21,7 @@ const Pics = () => {
   const fetchImageUrls = () => {
     firebaseDB()
       .collection("img_urls")
+      .orderBy("createdAt", "desc")
       .onSnapshot((snapshot) => {
         setPics(
           snapshot.docs.map((doc) => {
