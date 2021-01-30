@@ -36,6 +36,7 @@ const Pics = () => {
   const singleImg = (pic) => (
     <motion.div
       key={pic.id}
+      animate={{ x: 25 }}
       whileHover={{ scale: 1.2 }}
       transition={{ ease: "easeOut", duration: 0.3 }}
       className={classes.imgContainer}
@@ -76,8 +77,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "5rem",
     cursor: "pointer",
     boxShadow: `3px 3px 5px ${Colors.shadow}`,
-    // backgroundSize: "cover !important",
-    // backgroundPosition: "center !important",
+    backgroundSize: "cover !important",
+    backgroundPosition: "center !important",
   },
   img: {
     width: "35rem",
