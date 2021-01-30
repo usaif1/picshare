@@ -1,6 +1,7 @@
 //dependencies
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
+import { motion } from "framer-motion";
 
 //imports
 import { firebaseDB } from "../../utility/firebase";
@@ -9,6 +10,7 @@ import { Colors } from "../../utility/Colors";
 
 const Pics = () => {
   const [pics, setPics] = useState([]);
+  // const [zoom, setZoom] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -32,19 +34,19 @@ const Pics = () => {
   };
 
   const singleImg = (pic) => (
-    <div
+    <motion.div
       key={pic.id}
+      whileHover={{ scale: 1.2 }}
+      transition={{ ease: "easeOut", duration: 0.3 }}
       className={classes.imgContainer}
       style={{
         background: `url(${pic.url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
       }}
     >
       <div style={{ backdropFilter: "blur(8px)" }}>
         <img src={pic.url} alt="pic" className={classes.img} />
       </div>
-    </div>
+    </motion.div>
   );
 
   return (
@@ -70,14 +72,16 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   imgContainer: {
-    marginRight: "50px",
-    marginBottom: "50px",
+    marginRight: "5rem",
+    marginBottom: "5rem",
     cursor: "pointer",
     boxShadow: `3px 3px 5px ${Colors.shadow}`,
+    // backgroundSize: "cover !important",
+    // backgroundPosition: "center !important",
   },
   img: {
-    width: "350px",
-    height: "400px",
+    width: "35rem",
+    height: "40rem",
     objectFit: "contain",
     cursor: "inherit",
   },

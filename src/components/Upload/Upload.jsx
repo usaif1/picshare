@@ -7,16 +7,15 @@ import {
   Button,
   Dialog,
   Divider,
-  LinearProgress,
-  Snackbar,
   Slide,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 
 import AddIcon from "@material-ui/icons/Add";
 
 //imports
 import { firebaseStorage, firebaseDB } from "../../utility/firebase";
+import ProgressBar from "../../utility/ProgressBar";
+import AlertCustom from "../../utility/AlertCustom";
 import { Colors } from "../../utility/Colors";
 
 const Upload = () => {
@@ -121,25 +120,24 @@ const Upload = () => {
         </label>
       </form>
       {progress ? (
-        <LinearProgress
-          valueBuffer={100}
+        <ProgressBar
           value={buffer}
           variant="buffer"
-          className={classes.progressbar}
+          classname={classes.progressbar}
         />
       ) : null}
 
-      <Snackbar
+      <AlertCustom
+        //snackbar props
         open={success}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        TransitionComponent={Slide}
-      >
-        <Alert severity="success" variant="filled">
-          Image Uploaded Successfully!
-        </Alert>
-      </Snackbar>
-
+        hideoutDuration={3000}
+        onclose={handleClose}
+        transitionComponent={Slide}
+        //alert props
+        severity="success"
+        variant="filled"
+        text="Image Uploaded Successfully"
+      />
       <Dialog open={showDialog} maxWidth="sm">
         <div className={classes.dialogContainer}>
           <div>
@@ -187,6 +185,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   uploadButton: {
+    fontSize: "1.3rem",
+    fontWeight: "bold",
     borderRadius: "0",
   },
   addIcon: {
@@ -194,26 +194,27 @@ const useStyles = makeStyles((theme) => ({
     color: "#3BA300",
   },
   previewImg: {
-    width: "550px",
+    width: "55rem",
     objectFit: "contain",
   },
   buttonContainer: {
-    width: "200px",
+    width: "20rem",
     display: "flex",
     justifyContent: "space-between",
     margin: "auto",
   },
   dialogContainer: {
-    padding: "10px",
+    padding: "1rem",
   },
   divider: {
-    margin: "10px 0",
+    margin: "1rem 0",
   },
   progressbar: {
-    width: "150px",
+    width: "15rem",
     margin: "auto",
   },
   dialogHeading: {
+    fontSize: "1.5rem",
     textAlign: "center",
     color: Colors.darkGrey,
   },
