@@ -10,7 +10,6 @@ import { Colors } from "../../utility/Colors";
 
 const Pics = () => {
   const [pics, setPics] = useState([]);
-  // const [zoom, setZoom] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -18,6 +17,7 @@ const Pics = () => {
     //eslint-disable-next-line
   }, []);
 
+  //fetch images
   const fetchImageUrls = () => {
     firebaseDB()
       .collection("img_urls")
@@ -37,17 +37,14 @@ const Pics = () => {
   const singleImg = (pic) => (
     <motion.div
       key={pic.id}
-      animate={{ x: 25 }}
-      whileHover={{ scale: 1.2 }}
+      initial={{ y: 100 }}
+      animate={{ y: 0, opacity: 0.85 }}
+      layout
+      whileHover={{ scale: 1.2, opacity: 1 }}
       transition={{ ease: "easeOut", duration: 0.3 }}
       className={classes.imgContainer}
-      style={{
-        background: `url(${pic.url})`,
-      }}
     >
-      <div style={{ backdropFilter: "blur(8px)" }}>
-        <img src={pic.url} alt="pic" className={classes.img} />
-      </div>
+      <img src={pic.url} alt="pic" className={classes.img} />
     </motion.div>
   );
 
@@ -76,15 +73,11 @@ const useStyles = makeStyles((theme) => ({
   imgContainer: {
     marginRight: "5rem",
     marginBottom: "5rem",
-    cursor: "pointer",
     boxShadow: `3px 3px 5px ${Colors.shadow}`,
-    backgroundSize: "cover !important",
-    backgroundPosition: "center !important",
   },
   img: {
     width: "35rem",
-    height: "40rem",
-    objectFit: "contain",
+    verticalAlign: "bottom",
     cursor: "inherit",
   },
 }));

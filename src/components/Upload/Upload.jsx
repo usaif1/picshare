@@ -82,7 +82,7 @@ const Upload = () => {
             .collection("img_urls")
             .add({
               url: downloadURL,
-              createdAt: moment().format(`D-MM-YYYY-HH:mm:ss`),
+              createdAt: moment().toISOString(),
             })
             .then((docRef) => {})
             .catch((err) => {

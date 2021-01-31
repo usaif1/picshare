@@ -7,7 +7,6 @@ import { Colors } from "../utility/Colors";
 import GlobalContainer from "../utility/GlobalContainer";
 
 const Title = () => {
-  // console.log(moment().format(`D-MM-YYYY-HH:mm:ss`));
   const classes = useStyles();
   return (
     <GlobalContainer>
@@ -23,9 +22,13 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     textAlign: "center",
     color: Colors.darkGrey,
+    fontSize: "2.5rem",
+    letterSpacing: "1px",
   },
   subHeading: {
     textAlign: "center",
     color: Colors.darkGrey,
+    fontSize: "1.8rem",
+    letterSpacing: "1px",
   },
 }));
