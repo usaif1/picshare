@@ -71,8 +71,8 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   imgContainer: {
-    marginRight: "5rem",
-    marginBottom: "5rem",
+    marginRight: "4rem",
+    marginBottom: "4rem",
     boxShadow: `3px 3px 5px ${Colors.shadow}`,
   },
   img: {
