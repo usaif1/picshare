@@ -10,7 +10,6 @@ import { Colors } from "../../utility/Colors";
 
 const Pics = () => {
   const [pics, setPics] = useState([]);
-  // const [zoom, setZoom] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -37,7 +36,7 @@ const Pics = () => {
   const singleImg = (pic) => (
     <motion.div
       key={pic.id}
-      animate={{ x: 25 }}
+      layout
       whileHover={{ scale: 1.2 }}
       transition={{ ease: "easeOut", duration: 0.3 }}
       className={classes.imgContainer}
@@ -76,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
   imgContainer: {
     marginRight: "5rem",
     marginBottom: "5rem",
-    cursor: "pointer",
     boxShadow: `3px 3px 5px ${Colors.shadow}`,
     backgroundSize: "cover !important",
     backgroundPosition: "center !important",
@@ -85,6 +83,5 @@ const useStyles = makeStyles((theme) => ({
     width: "35rem",
     height: "40rem",
     objectFit: "contain",
-    cursor: "inherit",
   },
 }));

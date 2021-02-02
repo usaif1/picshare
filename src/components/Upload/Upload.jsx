@@ -9,7 +9,7 @@ import {
   Divider,
   Slide,
 } from "@material-ui/core";
-import moment from "moment";
+
 import AddIcon from "@material-ui/icons/Add";
 
 //imports
@@ -82,7 +82,6 @@ const Upload = () => {
             .collection("img_urls")
             .add({
               url: downloadURL,
-              createdAt: moment().format(`D-MM-YYYY-HH:mm:ss`),
             })
             .then((docRef) => {})
             .catch((err) => {
