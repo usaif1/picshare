@@ -44,6 +44,7 @@ const Pics = () => {
         animate={{ y: 0, opacity: 0.85 }}
         layout
         whileHover={{ scale: 1.2, opacity: 1 }}
+        whileTap={{ scale: 1.1, opacity: 1 }}
         transition={{ ease: "easeOut", duration: 0.3 }}
       />
     </div>
@@ -79,8 +80,10 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "4rem",
     marginBottom: "4rem",
     boxShadow: `3px 3px 5px ${Colors.shadow}`,
+    WebkitTouchCallout: "none",
+    userSelect: "none",
     [theme.breakpoints.down("sm")]: {
-      width: "48%",
+      width: "48.5%",
       marginRight: "0",
       marginBottom: "1rem",
     },
@@ -89,5 +92,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     verticalAlign: "bottom",
     cursor: "inherit",
+    WebkitTouchCallout: "none",
+    userSelect: "none",
   },
 }));

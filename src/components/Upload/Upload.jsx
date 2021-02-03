@@ -1,5 +1,5 @@
 //dependencies
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Container,
   makeStyles,
@@ -11,14 +11,18 @@ import {
 } from "@material-ui/core";
 import moment from "moment";
 import AddIcon from "@material-ui/icons/Add";
+import Cropper from "cropperjs";
+import "cropperjs/dist/cropper.min.css";
 
 //imports
 import { firebaseStorage, firebaseDB } from "../../utility/firebase";
 import ProgressBar from "../../utility/ProgressBar";
 import AlertCustom from "../../utility/AlertCustom";
 import { Colors } from "../../utility/Colors";
+import hzd from "../../assets/hzd.jpg";
 
 const Upload = () => {
+  //states
   const [file, setFile] = useState({});
   const [previewUrl, setPreviewUrl] = useState("");
   const [showDialog, setShowDialog] = useState(false);
@@ -26,9 +30,28 @@ const Upload = () => {
   const [progress, setProgress] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  //refs
   const storageRef = firebaseStorage().ref();
+  const imgRef = useRef();
+  debugger;
 
+  //classes
   const classes = useStyles();
+
+  useEffect(() => {
+    if (imgRef.current) {
+      debugger;
+      const cropper = new Cropper(imgRef.current, {
+        zoomable: false,
+        scalable: false,
+        aspectRatio: 16 / 9,
+        crop: () => {
+          const canvas = cropper.getCanvasData();
+          console.log(canvas);
+        },
+      });
+    }
+  }, [imgRef]);
 
   //onchange (file select) handler
   const onChangeHandler = (e) => {
@@ -127,7 +150,6 @@ const Upload = () => {
           classname={classes.progressbar}
         />
       ) : null}
-
       <AlertCustom
         //snackbar props
         open={success}
@@ -139,16 +161,22 @@ const Upload = () => {
         variant="filled"
         text="Image Uploaded Successfully"
       />
-      <Dialog open={showDialog} maxWidth="sm">
+      <Dialog
+        // open={showDialog}
+        open={true}
+        maxWidth="sm"
+      >
         <div className={classes.dialogContainer}>
           <div>
             <h4 className={classes.dialogHeading}>Upload {file.name} ?</h4>
           </div>
-          <div>
+          <div style={{ width: "100%" }}>
             <img
-              src={previewUrl}
+              // src={previewUrl}
+              src={hzd}
               alt="preview_img"
               className={classes.previewImg}
+              ref={imgRef}
             />
           </div>
           <Divider className={classes.divider} />
@@ -193,7 +221,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#3BA300",
   },
   previewImg: {
-    width: "55rem",
+    width: "100%",
     objectFit: "contain",
   },
   buttonContainer: {
