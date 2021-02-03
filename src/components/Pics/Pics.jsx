@@ -35,17 +35,18 @@ const Pics = () => {
   };
 
   const singleImg = (pic) => (
-    <motion.div
-      key={pic.id}
-      initial={{ y: 100 }}
-      animate={{ y: 0, opacity: 0.85 }}
-      layout
-      whileHover={{ scale: 1.2, opacity: 1 }}
-      transition={{ ease: "easeOut", duration: 0.3 }}
-      className={classes.imgContainer}
-    >
-      <img src={pic.url} alt="pic" className={classes.img} />
-    </motion.div>
+    <div key={pic.id} className={classes.imgContainer}>
+      <motion.img
+        src={pic.url}
+        alt="pic"
+        className={classes.img}
+        initial={{ y: 100 }}
+        animate={{ y: 0, opacity: 0.85 }}
+        layout
+        whileHover={{ scale: 1.2, opacity: 1 }}
+        transition={{ ease: "easeOut", duration: 0.3 }}
+      />
+    </div>
   );
 
   return (
@@ -69,14 +70,23 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "flex-start",
     flexWrap: "wrap",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "space-between",
+    },
   },
   imgContainer: {
+    width: "30%",
     marginRight: "4rem",
     marginBottom: "4rem",
     boxShadow: `3px 3px 5px ${Colors.shadow}`,
+    [theme.breakpoints.down("sm")]: {
+      width: "48%",
+      marginRight: "0",
+      marginBottom: "1rem",
+    },
   },
   img: {
-    width: "35rem",
+    width: "100%",
     verticalAlign: "bottom",
     cursor: "inherit",
   },
