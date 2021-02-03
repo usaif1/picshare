@@ -9,7 +9,7 @@ import {
   Divider,
   Slide,
 } from "@material-ui/core";
-
+import moment from "moment";
 import AddIcon from "@material-ui/icons/Add";
 
 //imports
@@ -82,6 +82,7 @@ const Upload = () => {
             .collection("img_urls")
             .add({
               url: downloadURL,
+              createdAt: moment().toISOString(),
             })
             .then((docRef) => {})
             .catch((err) => {
@@ -141,9 +142,7 @@ const Upload = () => {
       <Dialog open={showDialog} maxWidth="sm">
         <div className={classes.dialogContainer}>
           <div>
-            <h4 className={classes.dialogHeading}>
-              Upload {file.name ? file.name : null} ?
-            </h4>
+            <h4 className={classes.dialogHeading}>Upload {file.name} ?</h4>
           </div>
           <div>
             <img
