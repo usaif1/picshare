@@ -1,17 +1,18 @@
 //dependencies
 import React from "react";
-import { Container, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 //imports
 import { Colors } from "../utility/Colors";
+import GlobalContainer from "../utility/GlobalContainer";
 
 const Title = () => {
   const classes = useStyles();
   return (
-    <Container>
+    <GlobalContainer>
       <h1 className={classes.heading}>PicShare App</h1>
       <h2 className={classes.subHeading}>Share your pics</h2>
-    </Container>
+    </GlobalContainer>
   );
 };
 
@@ -21,9 +22,13 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     textAlign: "center",
     color: Colors.darkGrey,
+    fontSize: "2.5rem",
+    letterSpacing: "1px",
   },
   subHeading: {
     textAlign: "center",
     color: Colors.darkGrey,
+    fontSize: "1.8rem",
+    letterSpacing: "1px",
   },
 }));

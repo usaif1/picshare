@@ -1,6 +1,7 @@
 //dependencies
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
+import { motion } from "framer-motion";
 
 //imports
 import { firebaseDB } from "../../utility/firebase";
@@ -16,9 +17,11 @@ const Pics = () => {
     //eslint-disable-next-line
   }, []);
 
+  //fetch images
   const fetchImageUrls = () => {
     firebaseDB()
       .collection("img_urls")
+      .orderBy("createdAt", "desc")
       .onSnapshot((snapshot) => {
         setPics(
           snapshot.docs.map((doc) => {
@@ -32,19 +35,17 @@ const Pics = () => {
   };
 
   const singleImg = (pic) => (
-    <div
+    <motion.div
       key={pic.id}
+      initial={{ y: 100 }}
+      animate={{ y: 0, opacity: 0.85 }}
+      layout
+      whileHover={{ scale: 1.2, opacity: 1 }}
+      transition={{ ease: "easeOut", duration: 0.3 }}
       className={classes.imgContainer}
-      style={{
-        background: `url(${pic.url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
     >
-      <div style={{ backdropFilter: "blur(8px)" }}>
-        <img src={pic.url} alt="pic" className={classes.img} />
-      </div>
-    </div>
+      <img src={pic.url} alt="pic" className={classes.img} />
+    </motion.div>
   );
 
   return (
@@ -70,15 +71,13 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   imgContainer: {
-    marginRight: "50px",
-    marginBottom: "50px",
-    cursor: "pointer",
+    marginRight: "4rem",
+    marginBottom: "4rem",
     boxShadow: `3px 3px 5px ${Colors.shadow}`,
   },
   img: {
-    width: "350px",
-    height: "400px",
-    objectFit: "contain",
+    width: "35rem",
+    verticalAlign: "bottom",
     cursor: "inherit",
   },
 }));

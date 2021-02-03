@@ -11,6 +11,6 @@ const GlobalContainer = (props) => {
 export default GlobalContainer;
 const useStyles = makeStyles((theme) => ({
   globalContainer: {
-    marginTop: "20px",
+    marginTop: "3rem",
   },
 }));
