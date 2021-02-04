@@ -1,17 +1,14 @@
 //dependencies
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import {
   Container,
   makeStyles,
   IconButton,
-  Button,
   Dialog,
-  Divider,
   Slide,
 } from "@material-ui/core";
 import moment from "moment";
 import AddIcon from "@material-ui/icons/Add";
-import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.min.css";
 
 //imports
@@ -19,7 +16,7 @@ import { firebaseStorage, firebaseDB } from "../../utility/firebase";
 import ProgressBar from "../../utility/ProgressBar";
 import AlertCustom from "../../utility/AlertCustom";
 import { Colors } from "../../utility/Colors";
-import hzd from "../../assets/hzd.jpg";
+import DialogContent from "./DialogContent";
 
 const Upload = () => {
   //states
@@ -29,29 +26,13 @@ const Upload = () => {
   const [buffer, setBuffer] = useState(0);
   const [progress, setProgress] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [blob, setBlob] = useState(null);
 
   //refs
   const storageRef = firebaseStorage().ref();
-  const imgRef = useRef();
-  debugger;
 
   //classes
   const classes = useStyles();
-
-  useEffect(() => {
-    if (imgRef.current) {
-      debugger;
-      const cropper = new Cropper(imgRef.current, {
-        zoomable: false,
-        scalable: false,
-        aspectRatio: 16 / 9,
-        crop: () => {
-          const canvas = cropper.getCanvasData();
-          console.log(canvas);
-        },
-      });
-    }
-  }, [imgRef]);
 
   //onchange (file select) handler
   const onChangeHandler = (e) => {
@@ -62,7 +43,6 @@ const Upload = () => {
     } catch (error) {
       alert("Something went wrong! Please try again after some time");
     }
-
     setPreviewUrl(liveUrl);
     setShowDialog(true);
     setProgress(false);
@@ -82,7 +62,7 @@ const Upload = () => {
 
     const uploadTask = storageRef
       .child(`images/${file.name}`)
-      .put(file, metadata);
+      .put(blob, metadata);
 
     uploadTask.on(
       "state_changed",
@@ -161,44 +141,15 @@ const Upload = () => {
         variant="filled"
         text="Image Uploaded Successfully"
       />
-      <Dialog
-        // open={showDialog}
-        open={true}
-        maxWidth="sm"
-      >
-        <div className={classes.dialogContainer}>
-          <div>
-            <h4 className={classes.dialogHeading}>Upload {file.name} ?</h4>
-          </div>
-          <div style={{ width: "100%" }}>
-            <img
-              // src={previewUrl}
-              src={hzd}
-              alt="preview_img"
-              className={classes.previewImg}
-              ref={imgRef}
-            />
-          </div>
-          <Divider className={classes.divider} />
-          <div className={classes.buttonContainer}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={onSubmitHandler}
-              classes={{ root: classes.uploadButton }}
-            >
-              Upload
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              classes={{ root: classes.uploadButton }}
-              onClick={onCancelHandler}
-            >
-              Cancel
-            </Button>
-          </div>
-        </div>
+      <Dialog open={showDialog} maxWidth="sm">
+        <DialogContent
+          classes={classes}
+          onSubmitHandler={onSubmitHandler}
+          onCancelHandler={onCancelHandler}
+          previewUrl={previewUrl}
+          file={file}
+          setBlob={setBlob}
+        />
       </Dialog>
     </Container>
   );

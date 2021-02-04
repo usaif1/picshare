@@ -27,16 +27,6 @@ const AlertCustom = (props) => {
   );
 };
 
-// Alert.propTypes = {
-//   text: PropTypes.string.isRequired,
-// };
-
-// Alert.defaultProps = {
-//   transitionComponent: Slide,
-//   hideoutDuration: 3000,
-//   text: "Error Message!",
-// };
-
 export default AlertCustom;
 
 const useStyles = makeStyles((theme) => ({
