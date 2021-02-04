@@ -4,30 +4,34 @@ import {
   Container,
   makeStyles,
   IconButton,
-  Button,
   Dialog,
-  Divider,
   Slide,
 } from "@material-ui/core";
 import moment from "moment";
 import AddIcon from "@material-ui/icons/Add";
+import "cropperjs/dist/cropper.min.css";
 
 //imports
 import { firebaseStorage, firebaseDB } from "../../utility/firebase";
 import ProgressBar from "../../utility/ProgressBar";
 import AlertCustom from "../../utility/AlertCustom";
 import { Colors } from "../../utility/Colors";
+import DialogContent from "./DialogContent";
 
 const Upload = () => {
+  //states
   const [file, setFile] = useState({});
   const [previewUrl, setPreviewUrl] = useState("");
   const [showDialog, setShowDialog] = useState(false);
   const [buffer, setBuffer] = useState(0);
   const [progress, setProgress] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [blob, setBlob] = useState(null);
 
+  //refs
   const storageRef = firebaseStorage().ref();
 
+  //classes
   const classes = useStyles();
 
   //onchange (file select) handler
@@ -39,7 +43,6 @@ const Upload = () => {
     } catch (error) {
       alert("Something went wrong! Please try again after some time");
     }
-
     setPreviewUrl(liveUrl);
     setShowDialog(true);
     setProgress(false);
@@ -59,7 +62,7 @@ const Upload = () => {
 
     const uploadTask = storageRef
       .child(`images/${file.name}`)
-      .put(file, metadata);
+      .put(blob, metadata);
 
     uploadTask.on(
       "state_changed",
@@ -127,7 +130,6 @@ const Upload = () => {
           classname={classes.progressbar}
         />
       ) : null}
-
       <AlertCustom
         //snackbar props
         open={success}
@@ -140,37 +142,14 @@ const Upload = () => {
         text="Image Uploaded Successfully"
       />
       <Dialog open={showDialog} maxWidth="sm">
-        <div className={classes.dialogContainer}>
-          <div>
-            <h4 className={classes.dialogHeading}>Upload {file.name} ?</h4>
-          </div>
-          <div>
-            <img
-              src={previewUrl}
-              alt="preview_img"
-              className={classes.previewImg}
-            />
-          </div>
-          <Divider className={classes.divider} />
-          <div className={classes.buttonContainer}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={onSubmitHandler}
-              classes={{ root: classes.uploadButton }}
-            >
-              Upload
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              classes={{ root: classes.uploadButton }}
-              onClick={onCancelHandler}
-            >
-              Cancel
-            </Button>
-          </div>
-        </div>
+        <DialogContent
+          classes={classes}
+          onSubmitHandler={onSubmitHandler}
+          onCancelHandler={onCancelHandler}
+          previewUrl={previewUrl}
+          file={file}
+          setBlob={setBlob}
+        />
       </Dialog>
     </Container>
   );
@@ -193,7 +172,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#3BA300",
   },
   previewImg: {
-    width: "55rem",
+    width: "100%",
     objectFit: "contain",
   },
   buttonContainer: {
